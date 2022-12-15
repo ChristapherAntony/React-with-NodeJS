@@ -2,7 +2,7 @@ import React from 'react'
 import './Footer.css';
 function Footer() {
     return (
-        <div>
+        <div className='outer'>
             {/* FOOTER */}
             <footer className="w-100 py-4 flex-shrink-0">
                 <div className="container py-4">

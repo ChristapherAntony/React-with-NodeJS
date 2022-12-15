@@ -1,6 +1,30 @@
 import React from 'react'
+import { useState } from 'react';
+import axios from '../../utils/axios'
+import { signUpPost } from '../../utils/Constants';
 
 function SignUp() {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSubmit=(e)=>{
+        const body = JSON.stringify({
+            username,
+            email,
+            password
+        })
+    
+        e.preventDefault()
+        axios.post(signUpPost, body, { headers: { "Content-Type": "application/json" } }).then((response)=>{
+          console.log(response.data);
+    
+        }).catch((err)=>{
+    
+        })
+    
+      }
+
     return (
         <div>
             {/* Section: Design Block */}
@@ -44,22 +68,24 @@ function SignUp() {
                             />
                             <div className="card bg-glass">
                                 <div className="card-body px-4 py-5 px-md-5">
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
                                         {/* 2 column grid layout with text inputs for the first and last names */}
                                         <div className="row">
-                                            <div className="col-md-6 mb-4">
+                                            <div className=" mb-4">
                                                 <div className="form-outline">
                                                     <input
                                                         type="text"
                                                         id="form3Example1"
                                                         className="form-control"
+                                                        value={username}
+                                                        onChange={(e) => { setUsername(e.target.value) }}
                                                     />
                                                     <label className="form-label" htmlFor="form3Example1">
-                                                        First name
+                                                        User name
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div className="col-md-6 mb-4">
+                                            {/* <div className="col-md-6 mb-4">
                                                 <div className="form-outline">
                                                     <input
                                                         type="text"
@@ -70,7 +96,7 @@ function SignUp() {
                                                         Last name
                                                     </label>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         {/* Email input */}
                                         <div className="form-outline mb-4">
@@ -78,6 +104,8 @@ function SignUp() {
                                                 type="email"
                                                 id="form3Example3"
                                                 className="form-control"
+                                                value={email}
+                                                onChange={(e) => { setEmail(e.target.value) }}
                                             />
                                             <label className="form-label" htmlFor="form3Example3">
                                                 Email address
@@ -89,6 +117,8 @@ function SignUp() {
                                                 type="password"
                                                 id="form3Example4"
                                                 className="form-control"
+                                                value={password}
+                                                onChange={(e) => { setPassword(e.target.value) }}
                                             />
                                             <label className="form-label" htmlFor="form3Example4">
                                                 Password

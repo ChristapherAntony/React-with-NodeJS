@@ -1,7 +1,39 @@
 import React from 'react';
+import { useState } from 'react';
 import './Login.css';
+import axios from '../../utils/axios'
+import { loginPost } from '../../utils/Constants';
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+
+
+  const handleLogin=(e)=>{
+    const body = JSON.stringify({
+      email,
+      password,
+    })
+
+    e.preventDefault()
+    axios.post(loginPost, body, { headers: { "Content-Type": "application/json" } }).then((response)=>{
+      console.log(response);
+
+    }).catch((err)=>{
+      
+      console.log(err.response.data.message);
+      // setEr(err.response.data.message);
+
+    })
+
+  }
+
+
+
+
+
+
   return (
     <div  >
 
@@ -34,7 +66,7 @@ function Login() {
               <div className="row d-flex justify-content-center">
                 <div className="col-lg-8">
                   <h2 className="fw-bold mb-5">Login Form</h2>
-                  <form>
+                  <form onSubmit={handleLogin}>
                     {/* 2 column grid layout with text inputs for the first and last names */}
                     {/* <div className="row">
                       <div className="col-md-6 mb-4">
@@ -68,6 +100,8 @@ function Login() {
                         type="email"
                         id="form3Example3"
                         className="form-control"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value) }}
                       />
                       <label className="form-label" htmlFor="form3Example3">
                         Email address
@@ -79,13 +113,15 @@ function Login() {
                         type="password"
                         id="form3Example4"
                         className="form-control"
+                        value={password}
+                        onChange={(e) => { setPassword(e.target.value) }}
                       />
                       <label className="form-label" htmlFor="form3Example4">
                         Password
                       </label>
                     </div>
 
-  
+
                     {/* Submit button */}
                     <button type="submit" className="btn btn-primary btn-block mb-4">
                       Sign up

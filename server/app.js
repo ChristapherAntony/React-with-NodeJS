@@ -1,9 +1,21 @@
 const express =require('express')
 const app=express()
-
-app.get('/',(req,res)=>{
-    res.send("api is working")
-});
+const cors=require('cors')
+const { userSignUp, userLogin } = require('./controllers/user');
 
 
-app.listen(9000,()=>"server running on 9000 port")
+
+app.use(cors());
+app.use(express.json());
+
+
+
+app.post('/api/signup',userSignUp)
+app.post('/api/login',userLogin)
+
+
+
+
+
+
+app.listen(9000)
