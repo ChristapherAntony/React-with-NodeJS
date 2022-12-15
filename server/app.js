@@ -1,7 +1,9 @@
 const express =require('express')
 const app=express()
+const userRoutes=require('./routes/user')
+const adminRoutes=require('./routes/admin')
 const cors=require('cors')
-const { userSignUp, userLogin } = require('./controllers/user');
+
 
 
 
@@ -9,13 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 
-
-app.post('/api/signup',userSignUp)
-app.post('/api/login',userLogin)
-
-
-
-
+app.use('/api',userRoutes);
+app.use('/api/admin',adminRoutes);
 
 
 app.listen(9000)
