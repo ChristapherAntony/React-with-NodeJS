@@ -14,7 +14,7 @@ function DashPage() {
             <Sidebar />
             <main id="main" className="main">
 
-                <BodyTitle />
+                <BodyTitle data={'DashBoard'} />
                 {/* End Page Title */}
                 <section className="section dashboard">
                     <Dash />

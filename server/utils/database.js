@@ -1,9 +1,9 @@
-const mongoose = require('mongoose') 
-// const connection = mongoose.createConnection("mongodb://localhost:27017/ADMIN-CLIENT-SERVER");
-const connection =  mongoose.connect('mongodb://localhost:27017/ADMIN-CLIENT-SERVER',(err)=>{
-    if(!err)console.log("db connected");
-    else console.log('db error');
+const mongoose = require('mongoose');
+
+mongoose.set('strictQuery', true);
+mongoose.connect('mongodb://127.0.0.1:27017/ADMIN-CLIENT-SERVER', (err) => {
+    if (!err) console.log(`db connected - ADMIN-CLIENT-SERVER `);
+    else console.log(`db error${err}`);
 });
 
 
-module.exports=connection;

@@ -2,28 +2,33 @@ import React from 'react'
 import { useState } from 'react';
 import axios from '../../utils/axios'
 import { signUpPost } from '../../utils/Constants';
+import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate()
 
-    const handleSubmit=(e)=>{
+    const handleSubmit = (e) => {
         const body = JSON.stringify({
             username,
             email,
             password
         })
-    
+
         e.preventDefault()
-        axios.post(signUpPost, body, { headers: { "Content-Type": "application/json" } }).then((response)=>{
-          console.log(response.data);
-    
-        }).catch((err)=>{
-    
+        axios.post(signUpPost, body, { headers: { "Content-Type": "application/json" } }).then((response) => {
+            if (response.data.status === 'ok') {
+                navigate('/login')
+            } else {
+                window.alert(response.data.error)
+            }
+        }).catch((err) => {
+            window.alert(err.data.error)
         })
-    
-      }
+
+    }
 
     return (
         <div>

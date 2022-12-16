@@ -1,12 +1,103 @@
 import React from 'react'
-
+import { useState, useEffect } from 'react';
+import { Link, Outlet } from "react-router-dom";
+import axios from '../../utils/axios'
+import { getUsers } from '../../utils/Constants';
+import Swal from "sweetalert2";
+import { deleteUser } from '../../utils/Constants';
+import {useNavigate} from 'react-router-dom'
 
 function Users() {
-  return (
-<div>
-  <h1>users</h1>
-  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium iste reprehenderit voluptatum minus illum, asperiores nam vitae numquam animi veritatis quibusdam dolores dicta cupiditate autem adipisci eligendi error sint non saepe, doloribus sit expedita nesciunt. Ut error, quidem temporibus sapiente voluptatum aliquid explicabo doloremque laboriosam, quasi illo quaerat illum molestias consequuntur dolorum cupiditate mollitia molestiae natus a accusantium veniam minus consequatur expedita qui. Rem, corrupti. Suscipit ea placeat provident id amet ad, assumenda quidem illum sequi veritatis esse corporis expedita cupiditate minima autem fugiat omnis saepe. Harum quisquam nesciunt molestiae amet saepe, molestias autem? Culpa consequuntur tempora officiis vero quasi?</p>
+  const navigate=useNavigate()
+  const [users, setUsers] = useState([])
+  useEffect((key) => {
 
+    getUsersList()
+
+  }, [])
+
+  const getUsersList=()=>{
+    axios.get(getUsers).then((response) => {
+      setUsers(response.data.user)
+    }).catch((error) => {
+      console.log("inside catch");
+      console.log(error);
+    })
+
+  }
+
+
+
+  const searchHandle = () => { }
+  const deleteUserBtn = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`${deleteUser}/${id}`).then((res)=>{
+          getUsersList()
+          console.log(res);
+
+
+
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+
+        }).catch((err)=>{
+          Swal.fire(
+            'Not Deleted!',
+            'Some Error.',
+            // 'success'
+          )
+
+        })
+
+
+      }
+    })
+   }
+
+  return (
+
+
+
+
+<div>
+  <table className="table table-bordered  " id="myTable">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Action</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {users.map((obj,index)=>
+              <tr>
+              <td>{index+1}</td>
+              <td>{obj.username}</td>
+              <td>{obj.email}</td>
+              <td><button type="button" onClick={()=>deleteUserBtn(obj._id)}  className="btn badge rounded-pill bg-danger">Delete</button></td>
+              <td><button type="button"onClick={()=>navigate(`/updateUser/${obj._id}`)} className=" btn   badge rounded-pill bg-secondary"> Edit </button></td>
+            </tr>
+  
+      )
+
+      }
+
+    </tbody>
+  </table>
 </div>
 
   )

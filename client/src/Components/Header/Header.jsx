@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 function Header() {
+    const username =useSelector((state)=> state.username)
     return (
         <div>
             {/* Navbar */}
@@ -107,6 +109,7 @@ function Header() {
                                 data-mdb-toggle="dropdown"
                                 aria-expanded="false"
                             >
+                                {username}
                                 <img
                                     src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                                     className="rounded-circle"

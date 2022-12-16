@@ -1,16 +1,11 @@
 const express = require('express')
 const User = require('../models/user')
 
-const mongoose = require('mongoose');
-
-mongoose.set('strictQuery', true);
-// const connection = mongoose.createConnection("mongodb://localhost:27017/ADMIN-CLIENT-SERVER");
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/ADMIN-CLIENT-SERVER', (err) => {
-    if (!err) console.log("db connected");
-    else console.log(`db error${err}`);
-});
+
+
+
 
 module.exports = {
 
@@ -38,5 +33,27 @@ module.exports = {
             console.log(error);
             return res.status(500).json({ message: "something went wrong" });
         }
+    },
+    getUsers: async(req,res)=>{
+        try {
+            const user = await User.find().select("-password")
+            if(!user) return res.status(500).json({ message: "didnt got users from database" });
+
+            res.status(200).json({ message: "Sucess", user });
+        } catch (error) {
+            res.status(500).json({message:"something went wrong" })
+        }
+    },
+    deleteUser: async(req,res)=>{
+        try {
+            console.log(req.params.id);
+            const deleteUser=await User.deleteOne({_id:req.params.id})
+            console.log(deleteUser);
+            res.status(200).json({ message: "Sucess" });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({message:"something went wrong" })
+        }
     }
+
 }

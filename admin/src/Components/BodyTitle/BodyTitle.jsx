@@ -1,17 +1,17 @@
 import React from 'react'
 import './BodyTitle.css'
 
-function BodyTitle() {
+function BodyTitle(props) {
     return (
         <div>
             <div className="pagetitle">
-                <h1>Dashboard</h1>
+                <h1>{props.data}</h1>
                 <nav>
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="index.html">{}</a>
                         </li>
-                        <li className="breadcrumb-item active">Dashboard</li>
+                        <li className="breadcrumb-item active">{}</li>
                     </ol>
                 </nav>
             </div>

@@ -4,18 +4,19 @@ import BodyTitle from '../Components/BodyTitle/BodyTitle'
 import Footer from '../Components/Footer/Footer'
 import Header from '../Components/Header/Header'
 import Sidebar from '../Components/Sidebar/Sidebar'
-import Users from '../Components/Users/Users'
+import UpdateUser from '../Components/UpdateUser/UpdateUser'
 
-function UsersManagementPage() {
+
+function UserUpdatePage() {
   return (
     <div>
 
       <Header />
       <Sidebar />
       <main id="main" className="main">
-        <BodyTitle data={"User management"} />
+        <BodyTitle data={"Update User"} />
         <section className="section dashboard">
-          <Users />
+          <UpdateUser />
         </section>
       </main>
       <Footer />
@@ -23,4 +24,4 @@ function UsersManagementPage() {
   )
 }
 
-export default UsersManagementPage
+export default UserUpdatePage

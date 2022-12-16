@@ -3,31 +3,41 @@ import { useState } from 'react';
 import './Login.css';
 import axios from '../../utils/axios'
 import { loginPost } from '../../utils/Constants';
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { change } from '../../Redux/usernameReducer';
+
 
 function Login() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
 
 
-  const handleLogin=(e)=>{
+  const handleLogin = (e) => {
+    e.preventDefault()
     const body = JSON.stringify({
       email,
       password,
     })
 
-    e.preventDefault()
-    axios.post(loginPost, body, { headers: { "Content-Type": "application/json" } }).then((response)=>{
-      console.log(response);
 
-    }).catch((err)=>{
-      
-      console.log(err.response.data.message);
-      // setEr(err.response.data.message);
+    axios.post(loginPost, body, { headers: { "Content-Type": "application/json" } }).then((res) => {
+      localStorage.setItem('token', res.data.token)
+      window.alert("Login success")
+      dispatch(change(res.data.user))
+      navigate('/')
+    }).catch((err) => {
+      window.alert(err.response.data.message)
 
     })
 
   }
+
+
+
 
 
 

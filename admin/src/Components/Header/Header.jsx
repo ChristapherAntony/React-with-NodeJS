@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
+import {useSelector,useDispatch} from 'react-redux'
+
+
 function Header() {
+    const admin=useSelector((state)=>state.username)
     return (
         <div>
             {/* ======= Header ======= */}
@@ -31,6 +35,7 @@ function Header() {
                         </button>
                     </form>
                 </div>
+               <h3>{admin}</h3>
                 {/* End Search Bar */}
                 <nav className="header-nav ms-auto">
                     <ul className="d-flex align-items-center">
