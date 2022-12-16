@@ -12,6 +12,8 @@ export const baseUrl = "http://localhost:9000/api/admin/";
 
 export const getUsers = "getAllUsers";
 export const deleteUser = "deleteUser";
+export const getUser = "getUser";
+export const updateUser = "updateUser";
 
 
 

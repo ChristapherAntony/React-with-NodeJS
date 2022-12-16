@@ -39,6 +39,17 @@ module.exports = {
             const user = await User.find().select("-password")
             if(!user) return res.status(500).json({ message: "didnt got users from database" });
 
+            res.status(200).json({ message: "Success", user });
+        } catch (error) {
+            res.status(500).json({message:"something went wrong" })
+        }
+    },
+    getUser: async(req,res)=>{
+        
+        try {
+            const user = await User.findOne({_id:req.params.id}).select("-password")
+            if(!user) return res.status(500).json({ message: "didnt got users from database" });
+            // console.log(user);
             res.status(200).json({ message: "Sucess", user });
         } catch (error) {
             res.status(500).json({message:"something went wrong" })
@@ -46,14 +57,32 @@ module.exports = {
     },
     deleteUser: async(req,res)=>{
         try {
-            console.log(req.params.id);
             const deleteUser=await User.deleteOne({_id:req.params.id})
-            console.log(deleteUser);
+            res.status(200).json({ message: "Sucess" });
+        } catch (error) {
+            res.status(500).json({message:"something went wrong" })
+        }
+    },
+    updateUser: async(req,res)=>{
+        console.log("api call",req.params.id);
+        console.log(req.body);
+        const {username,email}=req.body
+        try {
+
+          const update=await User.findOneAndUpdate({_id:req.params.id},{
+            $set:{
+                username,
+                email
+            }
+          })
+          console.log(update);
+            
             res.status(200).json({ message: "Sucess" });
         } catch (error) {
             console.log(error);
             res.status(500).json({message:"something went wrong" })
         }
-    }
+    },
+
 
 }
