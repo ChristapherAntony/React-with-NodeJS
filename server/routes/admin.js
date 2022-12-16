@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 
-router.post('/login',adminLogin)
+router.post('/adminLogin',adminLogin)
 router.get('/getAllUsers',getUsers)
 router.get('/getUser/:id',getUser)
 router.delete('/deleteUser/:id',deleteUser)

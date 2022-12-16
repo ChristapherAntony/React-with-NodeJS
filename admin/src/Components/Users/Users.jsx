@@ -10,15 +10,21 @@ import { useNavigate } from 'react-router-dom'
 function Users() {
   const navigate = useNavigate()
   const [users, setUsers] = useState([])
-  useEffect((key) => {
 
-    getUsersList()
+ 
+    useEffect((key) => {
 
-  }, [])
+      getUsersList()
+  
+    },[])
+    
+  
+
+
 
   const getUsersList = () => {
     axios.get(getUsers).then((response) => {
-      setUsers(response.data.user)
+        setUsers(response.data.user)
     }).catch((error) => {
       console.log("inside catch");
       console.log(error);

@@ -1,10 +1,44 @@
 import React from 'react'
 import Footer from '../Footer/Footer'
 import './Login.css'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import axios from '../../utils/axios'
+import jwt_decode from "jwt-decode";
+
+import { useDispatch } from 'react-redux';
+import { change } from '../../Redux/adminReducer';
+import { adminLogin } from '../../utils/Constants';
 
 function Login() {
-    const navigate=useNavigate();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+    const Submit = (e) => {
+        e.preventDefault()
+        const body = JSON.stringify({
+            email,
+            password,
+        })
+
+
+        axios.post(adminLogin, body, { headers: { "Content-Type": "application/json" } }).then((res) => {
+            console.log(res);
+            localStorage.setItem('adminToken', res.data.adminToken)
+            let token = res.data.adminToken
+            window.alert("Login success")
+            let {email} = jwt_decode(token);
+            console.log(email);
+            dispatch(change(email))
+            navigate('/dash')
+        }).catch((err) => {
+            window.alert(err.response.data.message)
+
+        })
+
+
+    }
     return (
         <div>
             <section className="vh-100">
@@ -18,18 +52,10 @@ function Login() {
                             />
                         </div>
                         <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                            <form>
+                            <form onSubmit={Submit}>
                                 <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                                     <p className="lead fw-normal mb-0 me-3">Sign In</p>
-                                    {/* <button type="button" className="btn btn-primary btn-floating mx-1">
-                                        <i className="fab fa-facebook-f" />
-                                    </button>
-                                    <button type="button" className="btn btn-primary btn-floating mx-1">
-                                        <i className="fab fa-twitter" />
-                                    </button>
-                                    <button type="button" className="btn btn-primary btn-floating mx-1">
-                                        <i className="fab fa-linkedin-in" />
-                                    </button> */}
+
                                 </div>
                                 <div className="divider d-flex align-items-center my-4">
                                     <p className="text-center fw-bold mx-3 mb-0"></p>
@@ -41,6 +67,8 @@ function Login() {
                                         id="form3Example3"
                                         className="form-control form-control-lg"
                                         placeholder="Enter a valid email address"
+                                        value={email}
+                                        onChange={(e) => { setEmail(e.target.value) }}
                                     />
                                     <label className="form-label" htmlFor="form3Example3">
                                         Email address
@@ -53,6 +81,8 @@ function Login() {
                                         id="form3Example4"
                                         className="form-control form-control-lg"
                                         placeholder="Enter password"
+                                        value={password}
+                                        onChange={(e) => { setPassword(e.target.value) }}
                                     />
                                     <label className="form-label" htmlFor="form3Example4">
                                         Password
@@ -76,8 +106,10 @@ function Login() {
                                     </a>
                                 </div>
                                 <div className="text-center text-lg-start mt-4 pt-2">
-                                    <button onClick={()=>navigate('/dash')}
-                                        type="button"
+                                    <button
+
+                                        type="submit"
+
                                         className="btn btn-primary btn-lg"
                                         style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
                                     >
@@ -94,7 +126,7 @@ function Login() {
                         </div>
                     </div>
                 </div>
-                <Footer/>
+                <Footer />
             </section>
 
 
