@@ -83,6 +83,26 @@ module.exports = {
             res.status(500).json({message:"something went wrong" })
         }
     },
+    searchUser:async(req,res)=>{
+        console.log("hooei");
+        console.log(req.params.key);
+        try {
+            const users=await User.find({
+                "$or": [
+                    {
+                        username: { $regex: req.params.key }
+                    },
+                    {
+                        email: { $regex: req.params.key }
+                    }
+                ]
+            })
+            res.status(200).json({ message: "Sucess",users });
+        } catch (error) {
+            res.status(500).json({message:"something went wrong" })
+        }
+    }
+    
 
 
 }
