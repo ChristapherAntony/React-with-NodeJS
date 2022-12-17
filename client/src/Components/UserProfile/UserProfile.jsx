@@ -1,6 +1,30 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react';
+import {useNavigate} from 'react-router-dom'
+import axios from '../../utils/axios'
+import { verifyToken } from '../../utils/Constants';
+import { change } from '../../Redux/usernameReducer';
+import Swal from "sweetalert2";
 
 function UserProfile() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    useEffect(() => {
+        const Token = localStorage.getItem("token");
+        if (!Token) {
+              return navigate("/login");
+        } else {
+            axios.post(verifyToken, JSON.stringify({ Token }), { headers: { "Content-Type": "application/json" } }).then((res) => {
+                dispatch(change(res.data.user))
+            }).catch((err) => {
+                localStorage.removeItem('token');
+
+            })
+
+        }
+    }, [navigate,dispatch]);
+
     return (
         <div>
             <section style={{ backgroundColor: "#eee" }}>

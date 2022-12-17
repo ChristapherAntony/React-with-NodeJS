@@ -11,28 +11,22 @@ import { changeAdmin } from '../../Redux/adminReducer';
 
 function Header() {
     const dispatch = useDispatch()
-   
     const navigate = useNavigate();
     useEffect(() => {
         const Token = localStorage.getItem("adminToken");
-        console.log(Token, "999999999999999999999999999");
         if (!Token) {
             navigate("/");
         } else {
-            
-            axios.post(verifyToken,JSON.stringify({Token}) , { headers: { "Content-Type": "application/json" } }).then((res) => {
-console.log("ssssss");
-console.log(res);
-                console.log(res.data.email);
-                 dispatch(changeAdmin(res.data.email))
+
+            axios.post(verifyToken, JSON.stringify({ Token }), { headers: { "Content-Type": "application/json" } }).then((res) => {
+                dispatch(changeAdmin(res.data.email))
             }).catch((err) => {
-                console.log("ffffff");
                 localStorage.removeItem('adminToken');
 
             })
 
         }
-    }, [navigate,]);
+    }, []);
 
 
     const logoutHandle = () => {

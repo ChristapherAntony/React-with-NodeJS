@@ -1,9 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector ,useDispatch} from 'react-redux';
+import { change } from '../../Redux/usernameReducer';
+import jwt_decode from 'jwt-decode'
 
 
 function Header() {
+    const navigate = useNavigate();
+    const dispatch=useDispatch()
+
+    useEffect(() => {
+      let token = localStorage?.getItem('token')
+      if (token) {
+        let { username, email } = jwt_decode(token);
+        dispatch(change(username))
+      }
+  
+    }, [])
+  
+    const logout = () => {
+      localStorage.clear();
+      dispatch(change(""))
+
+    };
+
+
+
     const username =useSelector((state)=> state.username)
     return (
         <div>
@@ -61,8 +83,8 @@ function Header() {
                         <Link className="text-reset me-3" to={'/login'}>
                             LogIn
                         </Link>
-                        <Link className="text-reset me-3" to={'/signup'}>
-                            Signup
+                        <Link className="text-reset me-3" onClick={logout} to={'/'}>
+                            Logout
                         </Link>
                         {/* Notifications */}
                         {/* <div className="dropdown">
