@@ -6,7 +6,21 @@ import Header from '../Components/Header/Header'
 import Sidebar from '../Components/Sidebar/Sidebar'
 import Users from '../Components/Users/Users'
 
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+
 function UsersManagementPage() {
+
+  const navigate = useNavigate();
+  // useEffect(() => {
+  //   const Token = localStorage.getItem("adminToken");
+  //   if (!Token) {
+  //     navigate("/");
+  //   }
+  // }, [navigate]);
+
+
+
   return (
     <div>
 

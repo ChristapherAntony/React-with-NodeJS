@@ -100,6 +100,22 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ message: "something went wrong" })
         }
+    },
+    verifyToken: async(req, res) => {
+        const Token = req.body.Token
+        try {
+            const decoded = jwt.verify(Token, 'myWebAppSecretKey123')
+            const email = decoded.email
+            const user = await Admin.findOne({ email: email })
+            console.log(user.email);
+            return res.status(200).json({ message: "token valid", email:user.email });
+            
+        } catch (error) {
+            console.log(error);
+            res.json({ status: 'error', error: "invalid token" })
+        }
+
+
     }
 
 

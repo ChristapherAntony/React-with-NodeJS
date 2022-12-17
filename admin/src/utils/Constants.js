@@ -9,6 +9,7 @@ export const baseUrl = "http://localhost:9000/api/admin/";
 // export const userLoginPost = "https://zetetikoz.ml/login";
 // export const getProduct = "https://zetetikoz.ml/product/getAll";
 // export const getOneProduct = "https://zetetikoz.ml/product/getOneProduct";
+export const verifyToken = "verifyToken";
 export const adminLogin = "adminLogin";
 export const getUsers = "getAllUsers";
 export const deleteUser = "deleteUser";

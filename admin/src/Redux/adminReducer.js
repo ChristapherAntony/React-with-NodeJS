@@ -3,15 +3,15 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const adminSlice=createSlice({
     name:'admin',
-    initialState:'Hai Admin',
+    initialState:'',
     reducers:{
-        change:(state,action)=>{
+        changeAdmin:(state,action)=>{
             return action.payload
 
         }
     }
 })
 
-export const {change}=adminSlice.actions
+export const {changeAdmin}=adminSlice.actions
 
 export default adminSlice.reducer;

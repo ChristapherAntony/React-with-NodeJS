@@ -7,22 +7,20 @@ import axios from '../../utils/axios'
 import jwt_decode from "jwt-decode";
 
 import { useDispatch } from 'react-redux';
-import { change } from '../../Redux/adminReducer';
+import { change, changeAdmin } from '../../Redux/adminReducer';
 import { adminLogin } from '../../utils/Constants';
 
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('admin@gmail.com');
+    const [password, setPassword] = useState('123')
     const Submit = (e) => {
         e.preventDefault()
         const body = JSON.stringify({
             email,
             password,
         })
-
-
         axios.post(adminLogin, body, { headers: { "Content-Type": "application/json" } }).then((res) => {
             console.log(res);
             localStorage.setItem('adminToken', res.data.adminToken)
@@ -30,7 +28,7 @@ function Login() {
             window.alert("Login success")
             let {email} = jwt_decode(token);
             console.log(email);
-            dispatch(change(email))
+            dispatch(changeAdmin(email))
             navigate('/dash')
         }).catch((err) => {
             window.alert(err.response.data.message)

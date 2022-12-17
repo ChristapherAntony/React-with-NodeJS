@@ -1,11 +1,48 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
-import {useSelector,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react';
+
+import axios from '../../utils/axios'
+import { verifyToken } from '../../utils/Constants';
+import { changeAdmin } from '../../Redux/adminReducer';
 
 
 function Header() {
-    const admin=useSelector((state)=>state.username)
+    const dispatch = useDispatch()
+   
+    const navigate = useNavigate();
+    useEffect(() => {
+        const Token = localStorage.getItem("adminToken");
+        console.log(Token, "999999999999999999999999999");
+        if (!Token) {
+            navigate("/");
+        } else {
+            
+            axios.post(verifyToken,JSON.stringify({Token}) , { headers: { "Content-Type": "application/json" } }).then((res) => {
+console.log("ssssss");
+console.log(res);
+                console.log(res.data.email);
+                 dispatch(changeAdmin(res.data.email))
+            }).catch((err) => {
+                console.log("ffffff");
+                localStorage.removeItem('adminToken');
+
+            })
+
+        }
+    }, [navigate,]);
+
+
+    const logoutHandle = () => {
+        // navigate("/");
+        // localStorage.clear();
+        localStorage.removeItem('adminToken');
+
+    };
+
+    const admin = useSelector((state) => state.username)
     return (
         <div>
             {/* ======= Header ======= */}
@@ -35,7 +72,7 @@ function Header() {
                         </button>
                     </form>
                 </div>
-               <h3>{admin}</h3>
+                <h3>{admin}</h3>
                 {/* End Search Bar */}
                 <nav className="header-nav ms-auto">
                     <ul className="d-flex align-items-center">
@@ -52,7 +89,7 @@ function Header() {
                                     className="rounded-circle"
                                 /> */}
                                 <span className="d-none d-md-block dropdown-toggle ps-2">
-                                   Admin
+                                    Admin
                                 </span>
                             </a>
                             {/* End Profile Iamge Icon */}
@@ -101,7 +138,7 @@ function Header() {
                                     <hr className="dropdown-divider" />
                                 </li>
                                 <li>
-                                    <Link className="dropdown-item d-flex align-items-center" to={'/'}>
+                                    <Link className="dropdown-item d-flex align-items-center" onClick={logoutHandle} to={'/'}>
                                         <i className="bi bi-box-arrow-right" />
                                         <span>Sign Out</span>
                                     </Link>

@@ -1,9 +1,9 @@
 const express = require('express');
-const { adminLogin, getUsers, deleteUser, getUser, updateUser, searchUser } = require('../controllers/admin');
+const { adminLogin, getUsers, deleteUser, getUser, updateUser, searchUser, verifyToken } = require('../controllers/admin');
 const router = express.Router();
 
 
-
+router.post('/verifyToken',verifyToken)
 router.post('/adminLogin',adminLogin)
 router.get('/getAllUsers',getUsers)
 router.get('/getUser/:id',getUser)
