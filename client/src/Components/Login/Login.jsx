@@ -30,6 +30,7 @@ function Login() {
       dispatch(change(res.data.user))
       navigate('/')
     }).catch((err) => {
+      console.log(err);
       window.alert(err.response.data.message)
 
     })

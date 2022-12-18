@@ -1,32 +1,44 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector ,useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { change } from '../../Redux/usernameReducer';
+
+
 import jwt_decode from 'jwt-decode'
 
 
 function Header() {
+    const username1 = useSelector((state) => {
+        return state.username;
+    })
+    const userImage = useSelector((state) => {
+        return state.userImage;
+    })
+    console.log(username1,userImage,"from state");
+
+
+
     const navigate = useNavigate();
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
 
     useEffect(() => {
-      let token = localStorage?.getItem('token')
-      if (token) {
-        let { username, email } = jwt_decode(token);
-        dispatch(change(username))
-      }
-  
+        let token = localStorage?.getItem('token')
+        if (token) {
+            let { username, email } = jwt_decode(token);
+            dispatch(change(username))
+        }
+
     }, [])
-  
+
     const logout = () => {
-      localStorage.clear();
-      dispatch(change(""))
+        localStorage.clear();
+        dispatch(change(""))
 
     };
 
 
 
-    const username =useSelector((state)=> state.username)
+    const username = useSelector((state) => state.username)
     return (
         <div>
             {/* Navbar */}
