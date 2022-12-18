@@ -3,7 +3,7 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const fs = require('fs');
-const directoryPath = 'imgs/'
+const directoryPath = 'public/'
 module.exports = {
     userSignUp: async (req, res) => {
 

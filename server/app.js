@@ -3,7 +3,7 @@ const app=express()
 const cors=require('cors')
 require('./utils/database')
 
-app.use(express.static( 'imgs'));
+app.use(express.static( 'public'));
 
 const userRoutes=require('./routes/user')
 const adminRoutes=require('./routes/admin')
