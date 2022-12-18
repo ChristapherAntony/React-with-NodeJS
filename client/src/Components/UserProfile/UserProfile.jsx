@@ -11,8 +11,8 @@ import { changeImage } from '../../Redux/userImageReducer';
 
 
 function UserProfile() {
- 
-//    const {}=useSelector()
+
+    //    const {}=useSelector()
     const [name, setName] = useState('')
     const [email, setemail] = useState('')
     const [image, setImage] = useState('')
@@ -27,8 +27,8 @@ function UserProfile() {
                 setName(res.data.user.username)
                 setemail(res.data.user.email)
                 setImage(res.data.user?.image)
-                 dispatch(change(res.data.user.username))
-                 dispatch(changeImage(res.data.user?.image))
+                dispatch(change(res.data.user.username))
+                dispatch(changeImage(res.data.user?.image))
             }).catch((err) => {
                 localStorage.removeItem('token');
 
@@ -84,17 +84,37 @@ function UserProfile() {
             })
         }
 
-        
+
     }
-    const  remove=()=> {
-        const Token = localStorage.getItem("token");
-            let Stoken = JSON.stringify({ Token })
-        axios.delete(`${removeimage}/${Stoken}`).then((res) => {
-            setImage(res.data.image)
-            dispatch(changeImage(res.data.image))
-        }).catch((err) => {
-            console.log(err);
+    const remove = () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const Token = localStorage.getItem("token");
+                let Stoken = JSON.stringify({ Token })
+                axios.delete(`${removeimage}/${Stoken}`).then((res) => {
+                    setImage(res.data.image)
+                    dispatch(changeImage(res.data.image))
+                }).catch((err) => {
+                    console.log(err);
+                })
+
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
         })
+
+
 
     }
 
@@ -118,7 +138,7 @@ function UserProfile() {
                                     <p className="text-muted mb-1">{email}</p>
 
                                     <div className="d-flex justify-content-center mb-2">
-                                        
+
                                         <button onClick={remove} type="button" className="btn btn-primary">
                                             Remove image
                                         </button>
