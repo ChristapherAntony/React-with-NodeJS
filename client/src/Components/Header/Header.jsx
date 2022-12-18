@@ -2,38 +2,55 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { change } from '../../Redux/usernameReducer';
+import { changeImage } from '../../Redux/userImageReducer';
+import axios from '../../utils/axios'
+import {verifyToken}from '../../utils/Constants'
 
 
 import jwt_decode from 'jwt-decode'
 
 
 function Header() {
+
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+  
+    useEffect(() => {
+        const Token = localStorage.getItem("token");
+        if (Token) {
+            axios.post(verifyToken, JSON.stringify({ Token }), { headers: { "Content-Type": "application/json" } }).then((res) => {
+               
+                dispatch(change(res.data.user.username))
+                console.log(res.data.user.image);
+                dispatch(changeImage(res.data.user.image))
+                console.log(res,"resssssssssss");
+            }).catch((err) => {
+                localStorage.removeItem('adminToken');
+
+            })
+
+        }
+    }, []);
+
+
+
     const username1 = useSelector((state) => {
         return state.username;
     })
     const userImage = useSelector((state) => {
         return state.userImage;
+        
     })
-    console.log(username1,userImage,"from state");
+    console.log(username1,"666666666666666");
+    
 
 
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        let token = localStorage?.getItem('token')
-        if (token) {
-            let { username, email } = jwt_decode(token);
-            dispatch(change(username))
-        }
-
-    }, [])
 
     const logout = () => {
         localStorage.clear();
-        dispatch(change(""))
-
+        dispatch({type:'logout'})
     };
 
 
@@ -63,6 +80,7 @@ function Header() {
                         <Link className="navbar-brand mt-2 mt-lg-0" to={'/'}>
                             <img
                                 src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
+                                // src={userImage}
                                 height={15}
                                 alt="MDB Logo"
                                 loading="lazy"
@@ -92,49 +110,7 @@ function Header() {
                     {/* Right elements */}
                     <div className="d-flex align-items-center">
                         {/* Icon */}
-                        <Link className="text-reset me-3" to={'/login'}>
-                            LogIn
-                        </Link>
-                        <Link className="text-reset me-3" onClick={logout} to={'/'}>
-                            Logout
-                        </Link>
-                        {/* Notifications */}
-                        {/* <div className="dropdown">
-                            <Link
-                                className="text-reset me-3 dropdown-toggle hidden-arrow"
-                                href="#"
-                                id="navbarDropdownMenuLink"
-                                role="button"
-                                data-mdb-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                <i className="fas fa-bell" />
-                                <span className="badge rounded-pill badge-notification bg-danger">
-                                    1
-                                </span>
-                            </Link>
-                            <ul
-                                className="dropdown-menu dropdown-menu-end"
-                                aria-labelledby="navbarDropdownMenuLink"
-                            >
-                                <li>
-                                    <a className="dropdown-item" href="#">
-                                        Some news
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="dropdown-item" href="#">
-                                        Another news
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="dropdown-item" href="#">
-                                        Something else here
-                                    </a>
-                                </li>
-                            </ul>
-                        </div> */}
-                        {/* Avatar */}
+                        {username1 ?   <Link className="text-reset me-3" onClick={logout} to={'/'}> Logout</Link>:<Link className="text-reset me-3" to={'/login'}>LogIn</Link> }
                         <div className="dropdown">
                             <Link
                                 className="dropdown-toggle d-flex align-items-center hidden-arrow"
@@ -146,7 +122,8 @@ function Header() {
                             >
                                 {username}
                                 <img
-                                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                                    // src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                                    src={userImage}
                                     className="rounded-circle"
                                     height={25}
                                     alt="Black and White Portrait of a Man"
@@ -174,6 +151,7 @@ function Header() {
                                 </li>
                             </ul>
                         </div>
+
                     </div>
                     {/* Right elements */}
                 </div>

@@ -71,11 +71,15 @@ function SignUp() {
                                 id="radius-shape-2"
                                 className="position-absolute shadow-5-strong"
                             />
+                            
                             <div className="card bg-glass">
                                 <div className="card-body px-4 py-5 px-md-5">
+                                <h2>Sign Up</h2>
                                     <form onSubmit={handleSubmit}>
+                                    
                                         {/* 2 column grid layout with text inputs for the first and last names */}
                                         <div className="row">
+                                        
                                             <div className=" mb-4">
                                                 <div className="form-outline">
                                                     <input
@@ -151,7 +155,8 @@ function SignUp() {
                                         </button>
                                         {/* Register buttons */}
                                         <div className="text-center">
-                                            <p>or sign up with:</p>
+                                            
+                                            <p>Already have an account? <h6 style={{cursor:'pointer'}} onClick={()=>navigate('/login')}>Login</h6> </p>
                                             <button
                                                 type="button"
                                                 className="btn btn-link btn-floating mx-1"

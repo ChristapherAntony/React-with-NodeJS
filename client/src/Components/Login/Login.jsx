@@ -14,16 +14,12 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
-
   const handleLogin = (e) => {
     e.preventDefault()
     const body = JSON.stringify({
       email,
       password,
     })
-
-
     axios.post(loginPost, body, { headers: { "Content-Type": "application/json" } }).then((res) => {
       localStorage.setItem('token', res.data.token)
       window.alert("Login success")
@@ -36,13 +32,6 @@ function Login() {
     })
 
   }
-
-
-
-
-
-
-
 
 
   return (
@@ -76,7 +65,7 @@ function Login() {
             <div className="card-body py-5 px-md-5 ">
               <div className="row d-flex justify-content-center">
                 <div className="col-lg-8">
-                  <h2 className="fw-bold mb-5">Login Form</h2>
+                  <h2 className="fw-bold mb-5">Login </h2>
                   <form onSubmit={handleLogin}>
                     {/* 2 column grid layout with text inputs for the first and last names */}
                     {/* <div className="row">
@@ -135,11 +124,11 @@ function Login() {
 
                     {/* Submit button */}
                     <button type="submit" className="btn btn-primary btn-block mb-4">
-                      Sign up
+                      Login
                     </button>
                     {/* Register buttons */}
                     <div className="text-center">
-                      <p>or sign up with:</p>
+                      <h6 style={{cursor:'pointer'}} onClick={()=>navigate('/signup')}>or sign up with email</h6>
                       <button
                         type="button"
                         className="btn btn-link btn-floating mx-1"
