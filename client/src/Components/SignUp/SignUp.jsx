@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from '../../utils/axios'
 import { signUpPost } from '../../utils/Constants';
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 function SignUp() {
     const [username, setUsername] = useState('');
@@ -22,10 +23,20 @@ function SignUp() {
             if (response.data.status === 'ok') {
                 navigate('/login')
             } else {
-                window.alert(response.data.error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text:response.data.error ,
+                  })
+                // window.alert(response.data.error)
             }
         }).catch((err) => {
-            window.alert(err.data.error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text:"Something went wrong! Try Again later" ,
+              })
+            // window.alert(err.data.error)
         })
 
     }

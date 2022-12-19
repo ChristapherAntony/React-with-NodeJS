@@ -9,6 +9,7 @@ import jwt_decode from "jwt-decode";
 import { useDispatch } from 'react-redux';
 import { change, changeAdmin } from '../../Redux/adminReducer';
 import { adminLogin } from '../../utils/Constants';
+import Swal from 'sweetalert2'
 
 function Login() {
     const dispatch = useDispatch();
@@ -22,17 +23,23 @@ function Login() {
             password,
         })
         axios.post(adminLogin, body, { headers: { "Content-Type": "application/json" } }).then((res) => {
-            console.log(res);
+            Swal.fire({
+                icon: 'success',
+                title: 'You have logged in',
+                showConfirmButton: false,
+                timer: 1500
+              })
             localStorage.setItem('adminToken', res.data.adminToken)
             let token = res.data.adminToken
-            window.alert("Login success")
             let {email} = jwt_decode(token);
-            console.log(email);
             dispatch(changeAdmin(email))
             navigate('/dash')
         }).catch((err) => {
-            window.alert(err.response.data.message)
-
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text:"Something went wrong! Try Again later" ,
+              })
         })
 
 

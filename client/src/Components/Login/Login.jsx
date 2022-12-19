@@ -6,6 +6,7 @@ import { loginPost } from '../../utils/Constants';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { change } from '../../Redux/usernameReducer';
+import Swal from 'sweetalert2';
 
 
 function Login() {
@@ -20,14 +21,26 @@ function Login() {
       email,
       password,
     })
+    
     axios.post(loginPost, body, { headers: { "Content-Type": "application/json" } }).then((res) => {
       localStorage.setItem('token', res.data.token)
-      window.alert("Login success")
+      Swal.fire({
+        icon: 'success',
+        title: 'You have logged in',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      // window.alert("Login success")
       dispatch(change(res.data.user))
       navigate('/')
     }).catch((err) => {
       console.log(err);
-      window.alert(err.response.data.message)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text:"Something went wrong! Try Again later" ,
+      })
+      // window.alert(err.response.data.message)
 
     })
 
@@ -128,7 +141,7 @@ function Login() {
                     </button>
                     {/* Register buttons */}
                     <div className="text-center">
-                      <h6 style={{cursor:'pointer'}} onClick={()=>navigate('/signup')}>or sign up with email</h6>
+                      <h6 style={{ cursor: 'pointer' }} onClick={() => navigate('/signup')}>or sign up with email</h6>
                       <button
                         type="button"
                         className="btn btn-link btn-floating mx-1"

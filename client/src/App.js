@@ -1,10 +1,5 @@
-import HomePage from "./Pages/Home";
-import LoginPage from "./Pages/Login";
-import SignUpPage from "./Pages/SignUp";
 import {BrowserRouter as Router, Routes,Route} from 'react-router-dom'
-import UserprofilePage from "./Pages/Userprofile";
-import Page1 from "./Pages/Page1";
-import Page2 from "./Pages/Page2";
+import {HomePage,LoginPage,Page1,Page2,SignUpPage,UserprofilePage} from './Pages/index'
 
 function App() {
   return (
