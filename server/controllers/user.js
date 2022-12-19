@@ -2,11 +2,10 @@ const express = require('express')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const fs = require('fs');
-const directoryPath = 'public/'
+const fs = require('fs');     
+const directoryPath = 'public/'  //static img folder
 module.exports = {
     userSignUp: async (req, res) => {
-
         try {
             req.body.password = await bcrypt.hash(req.body.password, 10);
             const user = await User.create(req.body)
@@ -18,12 +17,11 @@ module.exports = {
     userLogin: async (req, res) => {
         try {
             const user = await User.findOne({ email: req.body.email })
-
             if (user) {
                 const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
                 if (isPasswordValid) {
 
-                    const token = jwt.sign({ username: user.username, email: user.email, id: user._id }, 'myWebAppSecretKey123')
+                    const token = jwt.sign({ username: user.username, email: user.email, id: user._id }, 'myWebAppSecretKey123', { expiresIn: "180000" })
                     // return res.json({ status: 'ok', user: true })
                     return res.status(200).json({ message: "Login Sucess", token, user: user.username });
                 } else {

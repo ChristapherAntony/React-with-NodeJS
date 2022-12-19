@@ -19,7 +19,7 @@ module.exports = {
                 const isPasswordValid = await bcrypt.compare(req.body.password, admin.password);
                 if (isPasswordValid) {
 
-                    const adminToken = jwt.sign({ username: admin.username, email: admin.email }, 'myWebAppSecretKey123')
+                    const adminToken = jwt.sign({ username: admin.username, email: admin.email }, 'myWebAppSecretKey123', { expiresIn: "180000" })
                     // return res.json({ status: 'ok', user: true })
                     return res.status(200).json({ message: "Login Sucess", adminToken, admin: admin.username });
                 } else {

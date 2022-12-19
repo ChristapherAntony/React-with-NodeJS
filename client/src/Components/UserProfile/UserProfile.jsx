@@ -16,6 +16,12 @@ function UserProfile() {
     const [name, setName] = useState('')
     const [email, setemail] = useState('')
     const [image, setImage] = useState('')
+    const userImage = useSelector((state) => {
+        return state.userImage;
+
+    })
+
+
     const dispatch = useDispatch()
     const navigate = useNavigate();
     useEffect(() => {
@@ -79,6 +85,7 @@ function UserProfile() {
             formData.append("image", file)
             axios.post(`${imageupload}/${Stoken}`, formData,).then((res) => {
                 setImage(res.data.image)
+                dispatch(changeImage(res.data.image))
             }).catch((err) => {
                 console.log(err);
             })
@@ -129,7 +136,7 @@ function UserProfile() {
                                 <div className="card-body text-center">
 
                                     <img
-                                        src={image}
+                                        src={userImage}
                                         alt="avatar"
                                         className="rounded-circle img-fluid"
                                         style={{ height: 150, width: 150 }}
